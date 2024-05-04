@@ -7,8 +7,18 @@ import 'package:ipix/src/rust/api/simple.dart';
 import 'package:ipix/src/rust/frb_generated.dart';
 import 'package:window_manager/window_manager.dart';
 
+Future setupLogger() async {
+  setupLogStream().listen((msg) {
+    // This should use a logging framework in real applications
+    // and this will not be showed on mobile devices
+    // ignore: avoid_print
+    print("${msg.logLevel} ${msg.lbl.padRight(8)}: ${msg.msg}");
+  });
+}
+
 Future<void> main() async {
   await RustLib.init();
+  await setupLogger();
   //needed to ensure binding was initialized
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -34,7 +44,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    fetchIp();
+    // fetchIp();
     super.initState();
   }
 
@@ -57,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             ]),
             Row(children: [
               ElevatedButton(
-                child: Text("请求网络"),
+                child: const Text("请求网络"),
                 onPressed: () {
                   fetchIp();
                 },

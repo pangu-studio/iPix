@@ -11,6 +11,7 @@ pub async fn simple_use_async_spawn(arg: String) -> String {
             let body = resp.json::<HashMap<String, String>>().await.unwrap();
             // let body = resp.text().await.unwrap();
             info!("body 3: {:?}", body);
+            print!("log info body: {:?}", body);
             debug!("log info body: {:?}", body);
             let origin = body.get("origin").unwrap().to_string();
             origin
