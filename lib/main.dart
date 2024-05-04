@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:ipix/src/rust/api/async_spawn.dart';
@@ -11,10 +12,13 @@ Future<void> main() async {
   //needed to ensure binding was initialized
   WidgetsFlutterBinding.ensureInitialized();
 
-  await WindowManager.instance.ensureInitialized();
-  windowManager.waitUntilReadyToShow().then((_) async {
-    await windowManager.setTitle('iPix');
-  });
+  if (Platform.isMacOS) {
+    //macOS相关代码
+    await WindowManager.instance.ensureInitialized();
+    windowManager.waitUntilReadyToShow().then((_) async {
+      await windowManager.setTitle('iPix');
+    });
+  }
   runApp(const HomePage());
 }
 
@@ -30,10 +34,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    fetchIp();
+    super.initState();
+  }
+
+  void fetchIp() {
     getIp().then((value) {
       setState(() => ip = value);
     });
-    super.initState();
   }
 
   @override
@@ -41,9 +49,21 @@ class _HomePageState extends State<HomePage> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('iPix')),
-        body: Center(
-          child: Text(
-              'Action: Call Rust `greet("Tom")`\nResult: `${greet(name: "Tom")},async function: $ip`'),
+        body: Column(
+          children: [
+            Row(children: [
+              Text(
+                  'Action: Call Rust `greet("Tom")`\nResult: `${greet(name: "Tom")},async function: $ip`'),
+            ]),
+            Row(children: [
+              ElevatedButton(
+                child: Text("请求网络"),
+                onPressed: () {
+                  fetchIp();
+                },
+              )
+            ])
+          ],
         ),
       ),
     );

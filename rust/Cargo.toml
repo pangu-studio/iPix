@@ -7,14 +7,15 @@ edition = "2021"
 crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
-flutter_rust_bridge = "=2.0.0-dev.32"
+flutter_rust_bridge = {version ="2.0.0-dev.32",features = ["log"]}
 anyhow = { version = "1.0.64", features = ["backtrace"] }
 uuid = "1.4.1"
 lazy_static = "1.4.0"
 serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"                                        # Only used for comparison test
+serde_json = "1.0"         
+log="*"
 # protobuf = "=2.28.0" # Only used for comparison test
-reqwest = { version = "0.12",features = ["json","socks"]}
-tokio = { version = "1", features = ["full"] }
-# system-configuration = "0.6.0"
-# system-configuration-sys = "0.6.0"
+reqwest = { version = "0.12", features = ["json"] }
+tokio = { version = "1", features = ["rt"] }
+[dev-dependencies]
+test-context = "0.3.0"
