@@ -14,7 +14,7 @@ use crate::errors::Error::Database;
 pub const DB_FILE: &str = "data.db";
 
 pub async fn run_migrations() -> Result<(), Error> {
-    sqlx::migrate!("./db/migrations")
+    sqlx::migrate!("db/migrations")
         .run(db_conn_pool().await?)
         .await
         .or_else(|err| Err(DBMigrate(err)))
