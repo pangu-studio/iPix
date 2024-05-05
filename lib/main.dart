@@ -7,6 +7,7 @@ import 'package:ipix/src/rust/api/simple.dart';
 import 'package:ipix/src/rust/frb_generated.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future setupLogger() async {
   setupLogStream().listen((msg) {
@@ -42,6 +43,16 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+Future<void> initLib2() async {
+  try {
+    String dir = Directory.current.path;
+
+    await initLib(path: dir);
+  } catch (e) {
+    log("error: $e");
+  }
+}
+
 class _HomePageState extends State<HomePage> {
   // const MyApp({super.key});
   var ip = '';
@@ -49,6 +60,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // fetchIp();
+    String dir = Directory.current.path;
+
+    initLib(path: dir);
     super.initState();
   }
 
@@ -86,7 +100,10 @@ class _HomePageState extends State<HomePage> {
 
 Future<String> getIp() async {
   try {
-    var ip = await simpleUseAsyncSpawn(arg: "tom");
+    String dir = Directory.current.path;
+    // var path = await getApplicationSupportDirectory();
+    print('path: $dir\n');
+    var ip = await simpleUseAsyncSpawn(arg: dir);
     return ip;
   } catch (e) {
     print(e);

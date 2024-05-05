@@ -1,5 +1,4 @@
-use log::{info, LevelFilter};
-
+use crate::constant::{app_data_path, run_migrations};
 #[flutter_rust_bridge::frb(sync)] // Synchronous mode for simplicity of the demo
 pub fn greet(name: String) -> String {
     info!("greet: {}", name);
@@ -10,6 +9,13 @@ pub fn greet(name: String) -> String {
 pub fn init_app() {
     // Default utilities - feel free to customize
     flutter_rust_bridge::setup_default_user_utils();
+}
+
+pub async fn init_lib(path: String) {
+    //set work dir
+    app_data_path(path);
+    // run database migrations
+    run_migrations().await.unwrap();
 }
 // #[flutter_rust_bridge::frb(init)]
 // pub fn set_desktop_logger() {

@@ -9,6 +9,9 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 String greet({required String name, dynamic hint}) =>
     RustLib.instance.api.greet(name: name, hint: hint);
 
+Future<void> initLib({required String path, dynamic hint}) =>
+    RustLib.instance.api.initLib(path: path, hint: hint);
+
 Stream<LogEntry> setupLogStream({dynamic hint}) =>
     RustLib.instance.api.setupLogStream(hint: hint);
 
