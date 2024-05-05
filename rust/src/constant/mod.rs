@@ -1,3 +1,4 @@
+use std::path::Path;
 // use std::fs::File;
 // use std::ops::Deref;
 use std::sync::Mutex;
@@ -10,6 +11,7 @@ use crate::errors::Error;
 use crate::errors::Error::DBMigrate;
 use crate::errors::Error::Database;
 
+pub const DB_FILE: &str = "data.db";
 
 pub async fn run_migrations() -> Result<(), Error> {
     sqlx::migrate!("./db/migrations")
@@ -26,12 +28,16 @@ pub fn app_data_path(path: String) -> &'static Mutex<String> {
 //初始化全局db
 pub async fn db() -> Result<Pool<Sqlite>, sqlx::Error> {
     let app_data_path = app_data_path("".to_string()).lock().unwrap().to_string();
-    let db_path = app_data_path + "/data.db";
+    //todo check if path exists
+    let db_path = Path::new(&app_data_path)
+        .join(DB_FILE)
+        .to_str()
+        .unwrap()
+        .to_string();
     debug!("db_path: {}", db_path);
     let opts = SqliteConnectOptions::new()
         .filename(db_path)
         .create_if_missing(true);
-    // opts::log_settings
 
     SqlitePoolOptions::new()
         .max_connections(5)

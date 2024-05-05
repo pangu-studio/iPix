@@ -1,26 +1,14 @@
-// mod store;
-
-use crate::errors::Error;
-use once_cell::sync::OnceCell as SyncCell;
-use std::fs;
-
-use tokio::sync::OnceCell;
-
 use crate::constant;
 use crate::constant::db_conn_pool;
 use crate::constant::run_migrations;
-// use crate::store::project::{save_project, delete_project, list_projects, Project};
-
+use crate::constant::DB_FILE;
+use crate::errors::Error;
+use once_cell::sync::OnceCell as SyncCell;
+use std::fs;
+use std::path::Path;
 use test_context::{test_context, AsyncTestContext, TestContext};
-
 use tokio::runtime::Runtime;
-
-use std::fs::File;
-use std::ops::Deref;
-// use simplelog::{ColorChoice, CombinedLogger, Config, TermLogger, TerminalMode, WriteLogger};
-use log::info;
-use log::LevelFilter;
-// use async_trait::async_trait;
+use tokio::sync::OnceCell;
 
 ///tokio runtime for sync testing
 pub fn runtime() -> Result<&'static Runtime, Error> {
@@ -69,13 +57,16 @@ impl TestContext for MyContext {
 static ONCE: OnceCell<anyhow::Result<()>> = OnceCell::const_new();
 
 pub async fn initialize() -> &'static anyhow::Result<()> {
-    // let _ = env_logger::builder().is_test(true).try_init();
+    let _ = env_logger::builder()
+        .target(env_logger::Target::Stdout)
+        .filter_level(log::LevelFilter::Trace)
+        .is_test(true)
+        .try_init();
     ONCE.get_or_init(|| async {
         let test_folder = ".".to_string();
         constant::app_data_path(test_folder.to_string());
-        // init_logger(1);
 
-        fs::remove_file("./data.db").unwrap_or_else(|why| error!("! {:?}", why.kind()));
+        fs::remove_file(Path::new(".").join(DB_FILE)).unwrap_or_else(|why| error!("! {:?}", why.kind()));
         match run_migrations().await {
             Ok(_) => {
                 info!("migrations done");
@@ -103,60 +94,11 @@ pub async fn initialize() -> &'static anyhow::Result<()> {
     .await
 }
 
-// pub fn init_logger(level: i8) {
-//     let log_file = constant::app_data_path("".to_string())
-//         .lock()
-//         .unwrap()
-//         .deref()
-//         .to_owned()
-//         + "/ipix.log";
-//     println!("log: {}", log_file);
-//     let ter: Box<TermLogger>;
-//     if level == 0 {
-//         ter = TermLogger::new(
-//             LevelFilter::Debug,
-//             Config::default(),
-//             TerminalMode::Mixed,
-//             ColorChoice::Auto,
-//         );
-//     } else if level == 1 {
-//         ter = TermLogger::new(
-//             LevelFilter::Info,
-//             Config::default(),
-//             TerminalMode::Mixed,
-//             ColorChoice::Auto,
-//         )
-//     } else {
-//         ter = TermLogger::new(
-//             LevelFilter::Warn,
-//             Config::default(),
-//             TerminalMode::Mixed,
-//             ColorChoice::Auto,
-//         )
-//     }
-
-//     CombinedLogger::init(vec![
-//         ter,
-//         WriteLogger::new(
-//             LevelFilter::Info,
-//             Config::default(),
-//             File::create(log_file).unwrap(),
-//         ),
-//     ])
-//     .unwrap_or(());
-// }
-// #[test_context(MyContext)]
-// #[test]
+#[test_context(MyContext)]
 #[test]
-fn test_works() {
-    use log::info;
-    let _ = env_logger::builder()
-        .target(env_logger::Target::Stdout)
-        .filter_level(log::LevelFilter::Trace)
-        .is_test(true)
-        .try_init();
+fn test_works(ctx: &mut MyContext) {
     info!("test_works --------");
-    // assert_eq!(ctx.value, "test")
+    assert_eq!(ctx.value, "test")
 }
 
 #[derive(sqlx::FromRow, Debug)]
@@ -164,14 +106,9 @@ struct Test {
     id: i32,
     content: String,
 }
-// use test_log::test;
 #[test_context(MyAsyncContext)]
 #[tokio::test]
 async fn test_works2(ctx: &mut MyAsyncContext) {
-    print!("test_works2");
-    info!("test_works2");
-
-    debug!("test_works2bdeeee {}", "a");
     let test_records = sqlx::query_as::<_, Test>("select * from test")
         .fetch_all(db_conn_pool().await.unwrap())
         .await
