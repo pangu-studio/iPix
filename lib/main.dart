@@ -6,13 +6,17 @@ import 'package:ipix/src/rust/api/async_spawn.dart';
 import 'package:ipix/src/rust/api/simple.dart';
 import 'package:ipix/src/rust/frb_generated.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:intl/intl.dart';
 
 Future setupLogger() async {
   setupLogStream().listen((msg) {
+    var level = msg.logLevel.toString().replaceAll("Level.", "");
+    var dt = DateTime.now();
+    var fdt = DateFormat('yyyy-MM-dd HH:mm:ss').format(dt);
     // This should use a logging framework in real applications
     // and this will not be showed on mobile devices
     // ignore: avoid_print
-    print("${msg.logLevel} ${msg.lbl.padRight(8)}: ${msg.msg}");
+    print("$fdt [${level.padRight(5)}] [${msg.lbl.padRight(12)}]: ${msg.msg}");
   });
 }
 

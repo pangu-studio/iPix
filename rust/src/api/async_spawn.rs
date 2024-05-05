@@ -13,6 +13,7 @@ pub async fn simple_use_async_spawn(arg: String) -> String {
             info!("body 3: {:?}", body);
             print!("log info body: {:?}", body);
             debug!("log info body: {:?}", body);
+            info!("args : {}", arg);
             let origin = body.get("origin").unwrap().to_string();
             origin
         }
