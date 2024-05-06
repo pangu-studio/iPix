@@ -1,4 +1,4 @@
-package com.example.ipix
+package studio.pangu.ipix
 
 import io.flutter.embedding.android.FlutterActivity
 

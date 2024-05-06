@@ -1,7 +1,8 @@
 // FRB_INTERNAL_GENERATOR: {"forbiddenDuplicatorModes": ["sync", "rustAsync", "sse", "sync sse", "rustAsync sse"]}
-use crate::constant::{app_data_path, db_conn_pool};
+use crate::constant::db_conn_pool;
+use std::collections::HashMap;
 use log::{debug, error, info};
-use std::{collections::HashMap, fmt::Display};
+
 
 #[derive(sqlx::FromRow, Debug)]
 struct Test {

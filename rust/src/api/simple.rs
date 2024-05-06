@@ -12,16 +12,11 @@ pub fn init_app() {
 }
 
 pub async fn init_lib(path: String) {
-    //set work dir
+    info!("init_lib: {}", path);
+    //set database direction
     app_data_path(path);
     // run database migrations
     run_migrations().await.unwrap();
 }
-// #[flutter_rust_bridge::frb(init)]
-// pub fn set_desktop_logger() {
-//     // print!("init env logger for desktop platforms");
-//     #[cfg(target_os = "macos")]
-//     flutter_logger::init(sink, filter);
-// }
 // #[cfg(target_os = "macos")]
 flutter_logger::flutter_logger_init!();

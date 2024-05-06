@@ -1048,9 +1048,9 @@ dependencies = [
 
 [[package]]
 name = "flutter_rust_bridge"
-version = "2.0.0-dev.32"
+version = "2.0.0-dev.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "34014207992d96657886c50c90ab503bb4581cc9c2b1ea7ffad2ec12400032da"
+checksum = "293c86d55bf9b6108482f8574517a8e7e032dd1d9260e1f4801c6180fdd2583c"
 dependencies = [
  "allo-isolate",
  "android_logger",
@@ -1076,9 +1076,9 @@ dependencies = [
 
 [[package]]
 name = "flutter_rust_bridge_macros"
-version = "2.0.0-dev.32"
+version = "2.0.0-dev.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fd250246955bb9548a99733859946a5721289ec152de5fcc6eb03da7d3143dd1"
+checksum = "d852460bc16316c4491a60e1652612f717764d436f3a97f8f1cc7c3b54d9a0dc"
 dependencies = [
  "hex",
  "quote",
@@ -1857,6 +1857,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ff011a302c396a5197692431fc1948019154afc178baf7d8e37367442a4601cf"
 
 [[package]]
+name = "openssl-src"
+version = "300.2.3+3.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5cff92b6f71555b61bb9315f7c64da3ca43d87531622120fea0195fc761b4843"
+dependencies = [
+ "cc",
+]
+
+[[package]]
 name = "openssl-sys"
 version = "0.9.102"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1864,6 +1873,7 @@ checksum = "c597637d56fbc83893a35eb0dd04b2b8e7a50c91e64e9493e398b5df4fb45fa2"
 dependencies = [
  "cc",
  "libc",
+ "openssl-src",
  "pkg-config",
  "vcpkg",
 ]
@@ -2223,6 +2233,7 @@ dependencies = [
  "lazy_static",
  "log",
  "once_cell",
+ "openssl",
  "reqwest",
  "serde",
  "serde_json",
