@@ -1,6 +1,6 @@
 # iPix
 
-A new Flutter project.
+A simple picture management tool written by flutter and rust, can run on Android, iOS, Windows, macOS and Linux, but not only for pictures, also for attachments and integrating AI abilities for generating pictures.
 
 ## Getting Started for developing
 ### Generating code
