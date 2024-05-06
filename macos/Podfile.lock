@@ -7,6 +7,9 @@ PODS:
     - FlutterMacOS
   - screen_retriever (0.0.1):
     - FlutterMacOS
+  - sqflite (0.0.3):
+    - Flutter
+    - FlutterMacOS
   - tray_manager (0.0.1):
     - FlutterMacOS
   - window_manager (0.2.0):
@@ -17,6 +20,7 @@ DEPENDENCIES:
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
   - rust_lib_ipix (from `Flutter/ephemeral/.symlinks/plugins/rust_lib_ipix/macos`)
   - screen_retriever (from `Flutter/ephemeral/.symlinks/plugins/screen_retriever/macos`)
+  - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/darwin`)
   - tray_manager (from `Flutter/ephemeral/.symlinks/plugins/tray_manager/macos`)
   - window_manager (from `Flutter/ephemeral/.symlinks/plugins/window_manager/macos`)
 
@@ -29,6 +33,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/rust_lib_ipix/macos
   screen_retriever:
     :path: Flutter/ephemeral/.symlinks/plugins/screen_retriever/macos
+  sqflite:
+    :path: Flutter/ephemeral/.symlinks/plugins/sqflite/darwin
   tray_manager:
     :path: Flutter/ephemeral/.symlinks/plugins/tray_manager/macos
   window_manager:
@@ -39,6 +45,7 @@ SPEC CHECKSUMS:
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   rust_lib_ipix: fae92e44e27a6abc0473249528f00c5dbadc004a
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
+  sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
   tray_manager: 9064e219c56d75c476e46b9a21182087930baf90
   window_manager: 3a1844359a6295ab1e47659b1a777e36773cd6e8
 

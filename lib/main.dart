@@ -8,6 +8,7 @@ import 'package:ipix/src/rust/frb_generated.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 
 Future setupLogger() async {
   setupLogStream().listen((msg) {
@@ -43,15 +44,15 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-Future<void> initLib2() async {
-  try {
-    String dir = Directory.current.path;
+// Future<void> initLib2() async {
+//   try {
+//     String dir = Directory.current.path;
 
-    await initLib(path: dir);
-  } catch (e) {
-    log("error: $e");
-  }
-}
+//     await initLib(path: dir);
+//   } catch (e) {
+//     log("error: $e");
+//   }
+// }
 
 class _HomePageState extends State<HomePage> {
   // const MyApp({super.key});
@@ -60,9 +61,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // fetchIp();
-    String dir = Directory.current.path;
+    // String dir = Directory.current.path;
 
-    initLib(path: dir);
+    // initLib(path: dir);
     super.initState();
   }
 
@@ -100,10 +101,36 @@ class _HomePageState extends State<HomePage> {
 
 Future<String> getIp() async {
   try {
-    String dir = Directory.current.path;
-    // var path = await getApplicationSupportDirectory();
-    print('path: $dir\n');
-    var ip = await simpleUseAsyncSpawn(arg: dir);
+    // var dbPath = await getDatabasesPath();
+    // log(dbPath);
+    // var appPath = await getApplicationDocumentsDirectory();
+    // log(appPath.path);
+    // if (Platform.isAndroid) {
+    //   var appPath = await getExternalStorageDirectory();
+    //   log(appPath.toString());
+    // }
+    String dbPath;
+    if (Platform.isAndroid) {
+      var dir = await getApplicationDocumentsDirectory();
+
+      var dbPath2 = join(dir.parent.path, "databases");
+      Directory db = Directory(dbPath2);
+      if (!db.existsSync()) {
+        dir.createSync(recursive: true);
+      }
+      dbPath = db.path;
+    } else {
+      var dir = await getApplicationDocumentsDirectory();
+      dbPath = dir.path;
+    }
+    await initLib(path: dbPath);
+    Directory db = Directory(dbPath);
+    db.listSync().forEach((element) {
+      log("files: ${element.path}");
+    });
+    print('path: $dbPath\n');
+    var ip = await simpleUseAsyncSpawn(arg: dbPath);
+
     return ip;
   } catch (e) {
     print(e);

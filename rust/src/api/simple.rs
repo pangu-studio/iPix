@@ -12,6 +12,7 @@ pub fn init_app() {
 }
 
 pub async fn init_lib(path: String) {
+    info!("init_lib: {}", path);
     //set work dir
     app_data_path(path);
     // run database migrations
