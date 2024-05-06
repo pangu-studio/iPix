@@ -24,5 +24,5 @@ pub async fn init_lib(path: String) {
 //     #[cfg(target_os = "macos")]
 //     flutter_logger::init(sink, filter);
 // }
-// #[cfg(target_os = "macos")]
+#[cfg(target_os = "macos")]
 flutter_logger::flutter_logger_init!();
